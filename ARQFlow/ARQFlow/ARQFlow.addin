@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>ARQFlow</Name>
+		<FullClassName>ARQFlow.App.App</FullClassName>
+		<Assembly>ARQFlow\ARQFlow.dll</Assembly>
+		<AddInId>C781C10D-5176-4D0B-912F-345B836AA98F</AddInId>
+		<VendorId>Icaro Ferolv</VendorId>
+	</AddIn>
+</RevitAddIns>
