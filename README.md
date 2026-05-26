@@ -21,7 +21,7 @@ Para evitar que o projeto se torne um monólito complexo, a solução foi dividi
 ## ⚙️ Pré-requisitos
 
 * Autodesk Revit 2025
-* Visual Studio 2022 ou superior (Recomendado: Visual Studio 2026)
+* Visual Studio 2022 ou superior 
 * SDK do .NET 8.0
 
 ## 🚀 Instalação e Compilação (Post-Build Event)
