@@ -7,9 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ARQFlow.Commands
+namespace ARQFlow.Modules.Modelagem.Commands
 {
     [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
     public class RecortePisoCommand : IExternalCommand
     {
         private const bool DEBUG = false;

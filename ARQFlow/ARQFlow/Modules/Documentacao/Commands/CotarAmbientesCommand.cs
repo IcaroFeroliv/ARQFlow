@@ -289,7 +289,7 @@ namespace ARQFlow.Modules.Documentacao.Commands
             IList<IList<BoundarySegment>> loops,
             XYZ roomCenter, double z, double dist, ElementId dimTypeId)
         {
-            var paredesProcessadas = new HashSet<int>();
+            var paredesProcessadas = new HashSet<long>();
             int criadas = 0;
 
             foreach (IList<BoundarySegment> loop in loops)
@@ -302,7 +302,7 @@ namespace ARQFlow.Modules.Documentacao.Commands
 
                     Wall mainWall = doc.GetElement(seg.ElementId) as Wall;
                     if (mainWall == null) continue;
-                    if (!paredesProcessadas.Add(seg.ElementId.IntegerValue)) continue;
+                    if (!paredesProcessadas.Add(seg.ElementId.Value)) continue;
 
                     Wall adjA = FindAdjacentInLoop(doc, loop, i, forward: false);
                     Wall adjB = FindAdjacentInLoop(doc, loop, i, forward: true);
