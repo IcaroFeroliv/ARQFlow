@@ -5,8 +5,7 @@
     },
     "REVIT": {
       "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Autodesk\\Revit 2026\\Revit.exe",
-      "commandLineArgs": ":: 1. Cria a pasta dedicada para o plugin se ela ainda não existir\r\nif not exist \"$(AppData)\\Autodesk\\Revit\\Addins\\2026\\ARQFlow\" mkdir \"$(AppData)\\Autodesk\\Revit\\Addins\\2026\\ARQFlow\"\r\n\r\n:: 2. Copia APENAS o arquivo .addin da raiz do projeto para a pasta do Revit\r\ncopy \"$(ProjectDir)ARQFlow.addin\" \"$(AppData)\\Autodesk\\Revit\\Addins\\2026\\\" /Y\r\n\r\n:: 3. Copia APENAS a .dll principal do seu plugin (ARQFlow.dll)\r\ncopy \"$(TargetDir)$(TargetFileName)\" \"$(AppData)\\Autodesk\\Revit\\Addins\\2026\\ARQFlow\\\" /Y"
-    }
+      "executablePath": "C:\\Program Files\\Autodesk\\Revit 2025\\Revit.exe",
+      }
   }
 }
