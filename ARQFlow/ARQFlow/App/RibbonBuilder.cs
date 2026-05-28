@@ -8,6 +8,8 @@ namespace ARQFlow.App
 {
     public static class RibbonBuilder
     {
+        private static readonly string LogPath = @"C:\RevitLoader\arqflow.log";
+
         public static void Build (UIControlledApplication application)
         {
             // Cria ou acessa a aba
@@ -152,6 +154,12 @@ namespace ARQFlow.App
         }*/
         private static void SetIcon(RibbonButton button, string resourcePath)
         {
+            if (button == null)
+            {
+                Log($"Botão nulo ao tentar carregar ícone: {resourcePath}");
+                return;
+            }
+
             try
             {
                 // Descobre dinamicamente o nome do seu assembly (ARQFlow)
@@ -166,7 +174,20 @@ namespace ARQFlow.App
             }
             catch (Exception)
             {
-                TaskDialog.Show("Erro", $"Não foi possível carregar o ícone: {resourcePath}");
+                Log($"Não foi possível carregar o ícone: {resourcePath}");
+            }
+        }
+
+        private static void Log(string message)
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(LogPath) ?? @"C:\RevitLoader");
+                File.AppendAllText(LogPath, DateTime.UtcNow.ToString("o") + " " + message + Environment.NewLine);
+            }
+            catch
+            {
+                // best-effort logging
             }
         }
     }

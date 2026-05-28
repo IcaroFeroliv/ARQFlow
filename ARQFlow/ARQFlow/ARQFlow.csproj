@@ -18,10 +18,10 @@
 	</ItemGroup>
   <ItemGroup>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2025\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2026\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2025\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2026\RevitAPIUI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
     </Resource>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command=":: 1. Cria a pasta dedicada para o plugin se ela ainda não existir&#xD;&#xA;if not exist &quot;$(AppData)\Autodesk\Revit\Addins\2025\ARQFlow&quot; mkdir &quot;$(AppData)\Autodesk\Revit\Addins\2025\ARQFlow&quot;&#xD;&#xA;&#xD;&#xA;:: 2. Copia APENAS o arquivo .addin da raiz do projeto para a pasta do Revit&#xD;&#xA;copy &quot;$(ProjectDir)ARQFlow.addin&quot; &quot;$(AppData)\Autodesk\Revit\Addins\2025\&quot; /Y&#xD;&#xA;&#xD;&#xA;:: 3. Copia APENAS a .dll principal do seu plugin (ARQFlow.dll)&#xD;&#xA;copy &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(AppData)\Autodesk\Revit\Addins\2025\ARQFlow\&quot; /Y" />
+    <Exec Command=":: 1. Cria a pasta dedicada para o plugin se ela ainda não existir&#xD;&#xA;if not exist &quot;$(AppData)\Autodesk\Revit\Addins\2026\ARQFlow&quot; mkdir &quot;$(AppData)\Autodesk\Revit\Addins\2026\ARQFlow&quot;&#xD;&#xA;&#xD;&#xA;:: 2. Copia APENAS o arquivo .addin da raiz do projeto para a pasta do Revit&#xD;&#xA;copy &quot;$(ProjectDir)ARQFlow.addin&quot; &quot;$(AppData)\Autodesk\Revit\Addins\2026\&quot; /Y&#xD;&#xA;&#xD;&#xA;:: 3. Copia APENAS a .dll principal do seu plugin (ARQFlow.dll)&#xD;&#xA;copy &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(AppData)\Autodesk\Revit\Addins\2026\ARQFlow\&quot; /Y" />
   </Target>
 
 </Project>
