@@ -1,7 +1,9 @@
 using Autodesk.Revit.UI;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -12,6 +14,10 @@ namespace ARQFlow.App
     {
         private static readonly HttpClient Client = new HttpClient();
         private static readonly string ApiPath = "http://192.168.1.160:8080/api/AuthControllerARQFlow/";
+        private static readonly string AccessTokenFilePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "ARQFlow",
+            "access.token");
         public static string AccessToken { get; private set; }
         
 
@@ -48,7 +54,11 @@ namespace ARQFlow.App
                     return false;
                 }
 
-                return false;
+                // 2) Tenta carregar token persistido
+                var persisted = LoadAccessTokenFromDisk();
+                if (string.IsNullOrWhiteSpace(persisted)) return false;
+                AccessToken = persisted;
+                return ValidateCurrentUser();
             }
             catch
             {
@@ -92,6 +102,9 @@ namespace ARQFlow.App
                     return false;
                 }
 
+                // Persistir token seguro no disco
+                try { SaveAccessTokenToDisk(AccessToken); } catch { }
+
                 return true;
             }
             catch
@@ -118,6 +131,7 @@ namespace ARQFlow.App
             try
             {
                 AccessToken = null;
+                try { DeletePersistedAccessToken(); } catch { }
             }
             catch
             {
@@ -213,8 +227,60 @@ namespace ARQFlow.App
                 return 0;
             }
         }
+        // Persistência segura do access token usando DPAPI (CurrentUser)
+        private static void SaveAccessTokenToDisk(string token)
+        {
+            try
+            {
+                var directory = Path.GetDirectoryName(AccessTokenFilePath);
+                if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
 
-        
+                var protectedBytes = ProtectedData.Protect(
+                    Encoding.UTF8.GetBytes(token),
+                    optionalEntropy: null,
+                    scope: DataProtectionScope.CurrentUser);
+
+                File.WriteAllBytes(AccessTokenFilePath, protectedBytes);
+            }
+            catch
+            {
+                // best-effort
+            }
+        }
+
+        private static string LoadAccessTokenFromDisk()
+        {
+            try
+            {
+                if (!File.Exists(AccessTokenFilePath)) return null;
+
+                var protectedBytes = File.ReadAllBytes(AccessTokenFilePath);
+                var bytes = ProtectedData.Unprotect(
+                    protectedBytes,
+                    optionalEntropy: null,
+                    scope: DataProtectionScope.CurrentUser);
+
+                return Encoding.UTF8.GetString(bytes);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static void DeletePersistedAccessToken()
+        {
+            try
+            {
+                if (File.Exists(AccessTokenFilePath)) File.Delete(AccessTokenFilePath);
+            }
+            catch
+            {
+            }
+        }
 
     }
 }
