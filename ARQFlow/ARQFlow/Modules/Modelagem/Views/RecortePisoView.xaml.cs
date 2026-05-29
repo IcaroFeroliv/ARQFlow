@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using Autodesk.Revit.DB;
+using static ARQFlow.Modules.Modelagem.Commands.RecortePisoCommand;
 
 namespace ARQFlow.Modules.Modelagem.Views
 {

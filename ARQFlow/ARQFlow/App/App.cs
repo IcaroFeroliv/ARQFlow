@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Autodesk.Revit.UI;
 using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
-
 namespace ARQFlow.App
 {
     public class App : IExternalApplication
     {
+        public static bool IsAuthenticated { get; private set; }
         public Result OnStartup(UIControlledApplication aplication)
         {
             try
             {
-                /* 
-                 - Sistema de Atualização Automática 
-                 - Sistema de Login e autenticação
-                */
+
+                IsAuthenticated = AuthController.Authenticate();
+                if (!IsAuthenticated) IsAuthenticated = AuthController.ChamarLogin();
                 RibbonBuilder.Build(aplication);
                 return Result.Succeeded;
             }
