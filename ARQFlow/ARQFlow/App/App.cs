@@ -9,11 +9,10 @@ namespace ARQFlow.App
         public Result OnStartup(UIControlledApplication aplication)
         {
             try
-            {
-
+            { 
                 IsAuthenticated = AuthController.Authenticate();
                 if (!IsAuthenticated) IsAuthenticated = AuthController.ChamarLogin();
-                RibbonBuilder.Build(aplication);
+                RibbonBuilder.Build(aplication,IsAuthenticated);
                 return Result.Succeeded;
             }
             catch (Exception ex)

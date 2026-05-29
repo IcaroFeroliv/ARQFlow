@@ -13,7 +13,7 @@ namespace ARQFlow.App
         private static readonly HttpClient Client = new HttpClient();
         private static readonly string ApiPath = "http://192.168.1.160:8080/api/AuthControllerARQFlow/";
         public static string AccessToken { get; private set; }
-        public static DateTimeOffset? AccessTokenExpiresAt { get; private set; }
+        
 
         // Ao iniciar: se houver token em memória, valida primeiro.
         // Se inválido ou ausente, retorna false (deve pedir login).
@@ -84,7 +84,7 @@ namespace ARQFlow.App
                 }
 
                 AccessToken = accessToken;
-                AccessTokenExpiresAt = expires > 0 ? DateTimeOffset.UtcNow.AddSeconds(expires) : null;
+                
 
                 if (!ValidateCurrentUser())
                 {
@@ -105,13 +105,7 @@ namespace ARQFlow.App
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(AccessToken) &&
-                    (!AccessTokenExpiresAt.HasValue || AccessTokenExpiresAt.Value > DateTimeOffset.UtcNow))
-                {
-                    return AccessToken;
-                }
-
-                return null;
+                return AccessToken;
             }
             catch
             {
@@ -124,7 +118,6 @@ namespace ARQFlow.App
             try
             {
                 AccessToken = null;
-                AccessTokenExpiresAt = null;
             }
             catch
             {

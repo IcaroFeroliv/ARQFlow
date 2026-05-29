@@ -10,7 +10,7 @@ namespace ARQFlow.App
     {
         private static readonly string LogPath = @"C:\RevitLoader\arqflow.log";
 
-        public static void Build (UIControlledApplication application)
+        public static void Build (UIControlledApplication application, bool autorizado)
         {
             // Cria ou acessa a aba
             string tabName = "ARQ Flow";
@@ -28,6 +28,7 @@ namespace ARQFlow.App
                 "Auto-Recorte"
             );
             PulldownButton pullDownButton = panel.AddItem(pullDownData) as PulldownButton;
+            if (pullDownButton != null) pullDownButton.Enabled = autorizado;
 
             string mainIconPath = "Modules/Modelagem/Resources/recorte-main.ico";
             SetIcon(pullDownButton, mainIconPath);
@@ -52,6 +53,8 @@ namespace ARQFlow.App
             // 1.1.2. Adicionar os sub-botões ao Pulldown
             PushButton btnPiso = pullDownButton.AddPushButton(btnPisoData);
             PushButton btnParede = pullDownButton.AddPushButton(btnParedeData);
+            if (btnPiso != null) btnPiso.Enabled = autorizado;
+            if (btnParede != null) btnParede.Enabled = autorizado;
 
             // 1.1.3. Colocar ícones nos sub-botões
             SetIcon(btnPiso, "Modules/Modelagem/Resources/piso-icon.ico");
@@ -69,6 +72,7 @@ namespace ARQFlow.App
             );
             btnDocData.ToolTip = "Abre a interface para inserir, tags e níveis automáticos.";
             PushButton btnDoc = panelDoc.AddItem(btnDocData) as PushButton;
+            if (btnDoc != null) btnDoc.Enabled = autorizado;
 
             // 2.1.1. Definir ícone (certifique-se de ter o arquivo .ico na pasta)
             SetIcon(btnDoc, "Modules/Documentacao/Resources/doc-icon.ico");
@@ -79,6 +83,7 @@ namespace ARQFlow.App
                 "Cotas"
             );
             PulldownButton pulldDownButtond = panelDoc.AddItem(pulldownButtond) as PulldownButton;
+            if (pulldDownButtond != null) pulldDownButtond.Enabled = autorizado;
 
             // 2.2.1. Imagem do botao Pai
             string cotasIconPath = "Modules/Documentacao/Resources/cotasbotaopai.ico";
@@ -113,6 +118,9 @@ namespace ARQFlow.App
             PushButton btnCotasAmbientes = pulldDownButtond.AddPushButton(btnCotasAmbientesData);
             PushButton btnCotasParedes = pulldDownButtond.AddPushButton(btnCotasParedesData);
             PushButton btnCotaExterna = pulldDownButtond.AddPushButton(btnCotaExternaData);
+            if (btnCotasAmbientes != null) btnCotasAmbientes.Enabled = autorizado;
+            if (btnCotasParedes != null) btnCotasParedes.Enabled = autorizado;
+            if (btnCotaExterna != null) btnCotaExterna.Enabled = autorizado;
 
             // 2.2.4. Colocar ícones nos sub-botões
             SetIcon(btnCotasAmbientes, "Modules/Documentacao/Resources/cotasambientes.ico");
@@ -131,6 +139,7 @@ namespace ARQFlow.App
             );
             btnDetalhamentoData.ToolTip = "Criar elevações através de um ambiente";
             PushButton btnDetalhamento = panelDetalhamento.AddItem(btnDetalhamentoData) as PushButton;
+            if (btnDetalhamento != null) btnDetalhamento.Enabled = autorizado;
 
             //3.1.1. Definir ícone 
             SetIcon(btnDetalhamento, "Modules/Detalhamento/Resources/detalhamento.ico");
