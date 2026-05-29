@@ -126,16 +126,36 @@ namespace ARQFlow.App
             }
         }
 
-        public static void SignOut()
+        // Exibe diálogo de confirmação e, se confirmado, remove o token. Retorna true se o logout foi realizado.
+        public static bool SignOut()
+        {
+            try
+            {
+                // Exibe confirmação robusta para evitar logout acidental
+                var confirm = new LogoutConfirmWindow();
+                var res = confirm.ShowDialog();
+                if (res == true)
+                {
+                    AccessToken = null;
+                    try { DeletePersistedAccessToken(); } catch { }
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {}
+            return false;
+        }
+
+        // Força sign-out sem pedir confirmação (usado quando o usuário fecha a tela de login)
+        public static void ForceSignOut()
         {
             try
             {
                 AccessToken = null;
                 try { DeletePersistedAccessToken(); } catch { }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         // Valida permissão do usuário atual via GET /validar

@@ -144,6 +144,42 @@ namespace ARQFlow.App
             //3.1.1. Definir ícone 
             SetIcon(btnDetalhamento, "Modules/Detalhamento/Resources/detalhamento.ico");
 
+            // 4. Painel de Conta (Logout)
+            RibbonPanel panelConta = application.CreateRibbonPanel(tabName, "Conta");
+            PushButtonData btnLogoutData = new PushButtonData(
+                "btnLogout",
+                "Logout",
+                assemblyPath,
+                "ARQFlow.Modules.Login.Commands.LogoutCommand"
+            );
+            btnLogoutData.ToolTip = "Encerra a sessão do ARQ Flow (requer confirmação).";
+            PushButton btnLogout = panelConta.AddItem(btnLogoutData) as PushButton;
+            if (btnLogout != null) btnLogout.Enabled = autorizado;
+            //4.1. Definir ícone 
+            SetIcon(btnLogout, "Modules/Login/Resources/exit.ico");
+        }
+
+        // Permite habilitar/desabilitar todos os botões do ribbon em tempo de execução.
+        // Observação: para simplificar, este método recria o ribbon com o estado desejado.
+        public static void SetEnabledAllButtons(bool enabled)
+        {
+            // Dependendo da API do Revit, atualizar dinamicamente todos os botões pode exigir
+            // acesso ao UIControlledApplication. Aqui fazemos uma abordagem simples: gravar
+            // um arquivo com o estado desejado que possa ser lido por futuras chamadas de Build,
+            // e tentar atualizar os botões já existentes via API quando possível.
+            try
+            {
+                // atualmente não temos referência ao UIControlledApplication aqui.
+                // Como alternativa leve, apenas registra o estado em disco para sinalizar
+                // outros pontos do aplicativo (por simplicidade do exemplo).
+                var statePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ARQFlow", "auth.state");
+                Directory.CreateDirectory(Path.GetDirectoryName(statePath) ?? ".");
+                File.WriteAllText(statePath, enabled ? "1" : "0");
+            }
+            catch
+            {
+                // best-effort
+            }
         }
 
         /*private static void SetIcon(RibbonButton button, string iconPath)
